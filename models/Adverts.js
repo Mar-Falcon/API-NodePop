@@ -21,7 +21,7 @@ advertsSchema.statics.lista = function(filters, skip, limit, campos, sort) {
 }
 
 // crear el modelo
-const Adverts = mongoose.model('Adverts', advertsSchema, "adverts");
+const Adverts = mongoose.model('Adverts', advertsSchema);
 
 // exportar el modelo
 module.exports = Adverts;
