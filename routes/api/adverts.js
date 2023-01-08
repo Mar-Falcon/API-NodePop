@@ -18,7 +18,7 @@ router.get('/', async (req, res, next) => {
     const price = req.query.price;
     const sell = req.query.sell;
     const tag = req.query.tag;
-    // paginación
+    // paginación   
     const skip = req.query.skip;
     const limit = req.query.limit;
     // selección de campos
@@ -30,11 +30,7 @@ router.get('/', async (req, res, next) => {
 
     if (name) { 
       filter.name = name;
-    }
-
-    if (price) { 
-      filter.price = price;
-    }
+    }    
 
     if (tag) {
       filter.tags = tag;
@@ -42,6 +38,25 @@ router.get('/', async (req, res, next) => {
 
     if (sell) {
       filter.sell = sell;
+    }
+
+    if (price) { 
+      let filterPrice;
+
+      if (!price.includes("-")) {
+        filterPrice = price;
+      } else if (price.endsWith("-")) {
+        filterPrice = { $gte: price.split("-")[0] };
+      } else if (price.startsWith("-")) {
+        filterPrice = { $lte: price.split("-")[1] };
+      } else {
+        filterPrice = {
+          $gte: price.split("-")[0],
+          $lte: price.split("-")[1],
+        };
+      }
+
+      filter.price = filterPrice;
     }
 
     const adverts = await Adverts.lista(filter, skip, limit, fields, sort);
