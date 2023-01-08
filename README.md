@@ -26,7 +26,7 @@ npm run dev
 
 ## API Documentation
 
-Agent list:
+Adverts list:
 
 GET /api/Adverts
 
