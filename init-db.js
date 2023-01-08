@@ -8,8 +8,8 @@ const Adverts = require('./models/Adverts');
 async function main() {
 
   // preguntar al usuario si está seguro
-  const continuar = await preguntaSiNo('Esta seguro que desea borrar la base de datos? [n]')
-  if (!continuar) {
+  const confirm = await askYesNo('Esta seguro que desea borrar la base de datos? [y/n]')
+  if (!confirm) {
     process.exit();
   }
 
@@ -32,14 +32,14 @@ async function initAdverts() {
 
   // crear anuncios iniciales
   const inserted = await Adverts.insertMany([
-    {name: "telefono", sell: true, price: 120, photo: "aqui va la foto", tags: ["1", "2"]},
-    {name: "bici", sell: true, price: 150, photo: "aqui va la foto", tags: ["3", "4"]},
-    {name: "televisor", sell: true, price: 240, photo: "aqui va la foto", tags: ["5", "6"]},   
+    {name: "iPhone 3GS", sell: true, price: 120, photo: "urlphoto", tags: ["lifestyle", "mobile"]},
+    {name: "bike", sell: true, price: 250, photo: "urlphoto", tags: ["lifestyle", "motor"]},
+    {name: "tv", sell: true, price: 240, photo: "urlphoto", tags: ["lifestyle", "home"]},   
   ]);
-  console.log(`Creados ${inserted.length} aanuncios.`)
+  console.log(`Creados ${inserted.length} anuncios.`)
 }
 
-function preguntaSiNo(texto) {
+function askYesNo(texto) {
   return new Promise((resolve, reject) => {
     const interface = readline.createInterface({
       input: process.stdin,
@@ -47,7 +47,7 @@ function preguntaSiNo(texto) {
     });
     interface.question(texto, respuesta => {
       interface.close();
-      if (respuesta.toLowerCase() === 'si') {
+      if (respuesta.toLowerCase() === 'y') {
         resolve(true);
         return;
       }
